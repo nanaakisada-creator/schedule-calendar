@@ -174,6 +174,10 @@ PRESET_USERS.forEach(u => getUserColor(u.name));
 
 function p2(n) { return String(n).padStart(2,'0'); }
 function toISO(d) { return d.getFullYear()+'/'+p2(d.getMonth()+1)+'/'+p2(d.getDate()); }
+function fmtDateLocal(dt) {
+  const d = new Date(dt);
+  return d.getFullYear()+'-'+p2(d.getMonth()+1)+'-'+p2(d.getDate());
+}
 function fmtLocal(dt) {
   const d = new Date(dt);
   return d.getFullYear()+'-'+p2(d.getMonth()+1)+'-'+p2(d.getDate())+'T'+p2(d.getHours())+':'+p2(d.getMinutes());
@@ -462,7 +466,7 @@ function openModal(dateStr, id, hour, targetUser) {
   editId = id || null;
   const ev = id ? events.find(e => e.id===id) : null;
   selColor = ev ? ev.color : COLORS[0];
-  const defDate = dateStr || (ev ? new Date(ev.start_at).toISOString().slice(0,10) : new Date().toISOString().slice(0,10));
+  const defDate = dateStr || (ev ? fmtDateLocal(ev.start_at) : fmtDateLocal(new Date()));
   const defHour = hour !== undefined && hour !== null ? hour : 9;
   const defS = defDate+'T'+p2(defHour)+':00';
   const defE = defDate+'T'+p2(Math.min(defHour+1,23))+':00';
@@ -506,7 +510,7 @@ function openModal(dateStr, id, hour, targetUser) {
     '</div>'+
     '<div id="date-fields" style="'+(evAllday?'':'display:none')+'">'+
     '<label style="font-size:11px;color:#b090b0;font-weight:700">📅 日付</label>'+
-    '<input type="date" id="f-date" value="'+(isEv?new Date(ev.start_at).toISOString().slice(0,10):defDate)+'">'+
+    '<input type="date" id="f-date" value="'+(isEv?fmtDateLocal(ev.start_at):defDate)+'">'+
     '</div></div>'+
 
     '<div class="frow"><label>📍 場所</label>'+
