@@ -311,12 +311,13 @@ function renderWeek() {
       evs.filter(e=>isAllday(e)).forEach(e => {
         const t = e.title||'';
         const cls = t.includes('出張')?'badge-out':t.includes('休')?'badge-off':t.includes('会議')||t.includes('MT')?'badge-meet':'badge-default';
-        h += '<span class="ev-allday '+cls+'" onclick="event.stopPropagation();openModal(null,\''+e.id+'\')" title="'+t+'">'+t+'</span>';
+        const evStyle = e.color ? 'background:'+e.color+';color:#fff' : '';
+        h += '<span class="ev-allday '+cls+'" style="'+evStyle+'" onclick="event.stopPropagation();openModal(null,\''+e.id+'\')" title="'+t+'">'+t+'</span>';
       });
       evs.filter(e=>!isAllday(e)).forEach(e => {
         h += '<div class="ev-timed" onclick="event.stopPropagation();openModal(null,\''+e.id+'\')">';
         h += '<span class="ev-time">'+fmtTime(e.start_at)+'-'+fmtTime(e.end_at)+'</span>';
-        h += badge(e)+'<span class="ev-title">'+e.title+'</span></div>';
+        h += badge(e)+'<span class="ev-title" style="'+(e.color?'color:'+e.color+';font-weight:700':'')+'">'+e.title+'</span></div>';
       });
       h += '</div>';
     });
@@ -352,10 +353,11 @@ function renderMonth() {
       if (isAllday(e)) {
         const t = e.title||'';
         const cls = t.includes('出張')?'badge-out':t.includes('休')?'badge-off':t.includes('会議')||t.includes('MT')?'badge-meet':'badge-default';
-        h += '<span class="ev-allday '+cls+'" onclick="event.stopPropagation();openModal(null,\''+e.id+'\')" title="'+t+'">'+t+'</span>';
+        const evStyle = e.color ? 'background:'+e.color+';color:#fff' : '';
+        h += '<span class="ev-allday '+cls+'" style="'+evStyle+'" onclick="event.stopPropagation();openModal(null,\''+e.id+'\')" title="'+t+'">'+t+'</span>';
       } else {
         h += '<div class="ev-timed" onclick="event.stopPropagation();openModal(null,\''+e.id+'\')">';
-        h += '<span class="ev-time">'+fmtTime(e.start_at)+'</span>'+badge(e)+'<span class="ev-title">'+e.title+'</span></div>';
+        h += '<span class="ev-time">'+fmtTime(e.start_at)+'</span>'+badge(e)+'<span class="ev-title" style="'+(e.color?'color:'+e.color+';font-weight:700':'')+'">'+e.title+'</span></div>';
       }
     });
     if (evs.length>4) h += '<div style="font-size:10px;color:#c0a0c0">+'+(evs.length-4)+'件 🌸</div>';
